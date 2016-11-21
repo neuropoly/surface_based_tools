@@ -19,6 +19,7 @@ Partial Volume Effect (PVE) hampers the accuracy of studies aiming at mapping MR
 __OPTIONS__:
 * reg file (if the volume has been registred on the surface)
 * path for output
+
 __METHOD OPTION__:
 * second_correction: default False. If the mri volume is isotropic, possibility of adding a second partial volume correction (for more inofrmation, see the abstract in the DOC directory). 
 
