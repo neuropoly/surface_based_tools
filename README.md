@@ -12,7 +12,7 @@ Partial Volume Effect (PVE) hampers the accuracy of studies aiming at mapping MR
 * Run the function *pvc_partial_volume_estimation*
 
 # Inputs:
-* mri volume registered on the surface
+* isotropic mri volume registered on the surface
 * subject DIR path
 ![Inputs](DOC/Screen Shot 2016-11-15 at 4.10.58 PM.png)
 
