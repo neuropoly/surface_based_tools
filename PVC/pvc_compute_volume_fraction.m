@@ -1,10 +1,10 @@
-function [VP] = pvc_compute_volume_fraction( surf_name, surf_path, number_of_surf, image, output_file, second_correction, cortical_study, type, aseg, reg, Type)
+function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf, image, output_file,type,Type, second_correction)
 %
 % Function that determines the volume fraction of each pixel crossed by the
 % surface that delineates the different tissues.
 %
 % VP = pvc_compute_volume_fraction( surf_name, surf_path, number_of_surf, 
-% image, output_file, cortical_study, type, aseg, reg, Type)
+% image, output_file, cortical_study, type, Type)
 %
 % Inputs:
 %       surf_name: name of the surface delineating the tissues
@@ -33,8 +33,8 @@ function [VP] = pvc_compute_volume_fraction( surf_name, surf_path, number_of_sur
 %
 % Original author: Camille Van Assel
 
-if nargin < 7 
-    cortical_study = false;
+if nargin < 8 
+    seond_correction = false
 end
 
 %Compute the volume fractions
@@ -99,32 +99,49 @@ for iter=0:2*number_of_surf
     
     %% Create a binary volume of the crossed voxel
     FV=struct('faces',faces,'vertices',VoxVertices);
+    if iter ==0
+        FV0 = FV;
+    end
     Volume(:,:,:,iter+1) = polygon2voxel(FV,size_image,'none',false);
    
     
 end
 
-if cortical_study
-    %% Extract the label from the aseg file
-    [data_aseg,~] = load_mgh(aseg);
-    if reg ~= ''
-        cmd = [launch_bash_profile 'mri_label2vol --seg ' aseg ' --temp ' image ' --reg ' reg ' --o temp_aseg.mgz'];
-        system(cmd);
-        aseg = 'temp_aseg.mgz';
-        [data_aseg,~] = load_mgh(aseg);
-    end
+gridX = [0:size_image(1)-1];
+gridY = [0:size_image(2)-1];
+gridZ = [0:size_image(3)-1];
 
-    if strcmp(type,'white') && strcmp(Type,'lh')
-        Fraction=(data_aseg==2);
-    elseif strcmp(type,'white') && strcmp(Type,'rh')
-       Fraction=(data_aseg==41);
+Fraction = VOXELISE(gridX,gridY,gridZ,FV0);
+Fraction = permute(Fraction,[2 1 3]);
 
-    elseif strcmp(type,'pial') && strcmp(Type,'lh')
-        Fraction=(data_aseg==3 | data_aseg==2);
-    elseif strcmp(type,'pial') && strcmp(Type,'rh')
-        Fraction=(data_aseg==41 | data_aseg==42);
-    end
-end
+% 0-based matrix to 1-based matrix
+Fraction = cat(1,Fraction(2:size(Fraction,1),:,:),Fraction(1,:,:));
+Fraction = cat(2,Fraction(:,2:size(Fraction,2),:),Fraction(:,1,:));
+Fraction = cat(3,Fraction(:,:,2:size(Fraction,3)),Fraction(:,:,1));
+
+save_mgh(Fraction,['/Users/cavan/Volume_partiel/Validation/fraction_' type Type '.mgz'],M);
+
+% if cortical_study
+%     %% Extract the label from the aseg file
+%     [data_aseg,~] = load_mgh(aseg);
+%     if reg ~= ''
+%         cmd = [launch_bash_profile 'mri_label2vol --seg ' aseg ' --temp ' image ' --reg ' reg ' --o temp_aseg.mgz'];
+%         system(cmd);
+%         aseg = 'temp_aseg.mgz';
+%         [data_aseg,~] = load_mgh(aseg);
+%     end
+% 
+%     if strcmp(type,'white') && strcmp(Type,'lh')
+%         Fraction=(data_aseg==2);
+%     elseif strcmp(type,'white') && strcmp(Type,'rh')
+%        Fraction=(data_aseg==41);
+% 
+%     elseif strcmp(type,'pial') && strcmp(Type,'lh')
+%         Fraction=(data_aseg==3 | data_aseg==2);
+%     elseif strcmp(type,'pial') && strcmp(Type,'rh')
+%         Fraction=(data_aseg==41 | data_aseg==42);
+%     end
+% end
 
 %% determine the fraction of partial volume
 if second_correction
@@ -152,25 +169,9 @@ end
 
 
 %% Draw the pixel inside the surface in the case of cortical study
-if cortica_study
-    x = find(Fraction~=0);
-    [i,j,k] = meshgrid(1:size_image(2),1:size_image(1),1:size_image(3));
-    Nins = true;
-    while Nins
-        random = randi([1,size(x,1)],1);
-        com=[j(x(random)), i(x(random)), k(x(random))];
-        if sum(sum(sum(Fraction(com(1)-1:com(1)+1,com(2)-1:com(2)+1,com(3)-1:com(3)+1))))==27
-            Nins = false;
-        end
-    end
 
-    VP_b = (Volume(:,:,:,1)>0);
-    VP_b = imfill(VP_b,com);
-    VP(VP==0 & VP_b==1)=1;
-else
-    VP_b = imfill(Volume(:,:,:,1)>0);
-    VP(VP==0 & VP_b==1)=1;
-end
+x = (Fraction~=0);
+VP(VP==0 & x==1)=1;
 
 % Since we had to add 1 to every vertice coordinates, the coordinates of the image if 1-based instead of 0-based
 % We have to  delete the last ligne in each dimension and add a ligne at the begining of the matrix
