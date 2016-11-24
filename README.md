@@ -17,7 +17,6 @@ Partial Volume Effect (PVE) hampers the accuracy of studies aiming at mapping MR
 ![Inputs](DOC/Screen Shot 2016-11-15 at 4.10.58 PM.png)
 
 __OPTIONS__:
-* reg file (if the volume has been registred on the surface)
 * path for output
 
 __METHOD OPTION__:
