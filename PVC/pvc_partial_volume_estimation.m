@@ -6,7 +6,7 @@ function [ S ] = pvc_partial_volume_estimation(Vol, fsdir, voxel, output_path, s
 % pvc_compute_volume_fraction. Then, it will calculate the unmixed values
 % using a linear regression with the neigbors voxels.
 %
-% S = pvc_compute_unmixed_values(Volume, fsdir, voxel, cortical_study, aseg, type, reg)
+% S = pvc_compute_unmixed_values(Volume, fsdir, voxel, output_path, second_correction)
 %
 % Inputs:
 %       Volume: the input volume that is prone to partial volume effect
@@ -25,6 +25,7 @@ function [ S ] = pvc_partial_volume_estimation(Vol, fsdir, voxel, output_path, s
 %           - vp_WM.mgz : mask of the white matter
 %           - vp_CTX.mgz : mask of the cortex
 %           - vp_CSF.mgz :  mask of the CSF
+%           - vp_r_square.mgz:mask of the r square coefficients 
 %           - VPC.mat: VPC is a structure containing: - the number of pixel crossed 
 %                                         by the surface
 %                               - the mean R-squared coefficient 
@@ -61,14 +62,14 @@ nb_surface = 5;
 %volume fractions 
 fsidr =[fsdir '/surf']; 
 
-pvc_create_expanded_surfaces('lh.pial', fsdir, 5, voxel);
-pvc_create_expanded_surfaces('lh.white',fsdir, 5, voxel);
+% pvc_create_expanded_surfaces('lh.pial', fsdir, 5, voxel);
+% pvc_create_expanded_surfaces('lh.white',fsdir, 5, voxel);
 
 VP_pial = pvc_compute_volume_fraction('lh.pial', fsdir ,nb_surface, Vol,[output_path '/VP_pial_lh'], 'pial','lh', second_correction);
 VP_white = pvc_compute_volume_fraction('lh.white', fsdir ,nb_surface, Vol,[output_path '/VP_white_lh'], 'white','lh', second_correction);
 
-pvc_create_expanded_surfaces('rh.pial', fsdir, 5, voxel);
-pvc_create_expanded_surfaces('rh.white',fsdir, 5, voxel);  
+% pvc_create_expanded_surfaces('rh.pial', fsdir, 5, voxel);
+% pvc_create_expanded_surfaces('rh.white',fsdir, 5, voxel);  
 
 VP_pial = pvc_compute_volume_fraction('rh.pial', fsdir ,nb_surface, Vol,[output_path '/VP_pial_rh'],'pial','rh',second_correction);
 VP_white = pvc_compute_volume_fraction('rh.white', fsdir ,nb_surface, Vol,[output_path '/VP_white_rh'],'white','rh',second_correction);  

@@ -36,15 +36,15 @@ for iter=1:N
     % We create n intermediary surfaces in the other side
     exp = -iter*voxel_size*1.6/N;
     if iter<10
-        cmd = horzcat(cmd, ['mris_expand ' surf ' ' num2str(exp) ' ' surf '00' num2str(iter) ';']);  
+        cmd = horzcat(cmd, ['mris_expand ' surf ' ' num2str(exp) ' ' surf 'n00' num2str(iter) ';']);  
     else
-        cmd = horzcat(cmd, ['mris_expand ' surf ' ' num2str(exp) ' ' surf '0' num2str(iter) ';']); 
+        cmd = horzcat(cmd, ['mris_expand ' surf ' ' num2str(exp) ' ' surf 'n0' num2str(iter) ';']); 
     end
 end
 disp(cmd);
 unix(cmd);
 
-cmd = ['cp ' surf ' ' surf '001'];
+cmd = ['cp ' surf ' ' surf '000'];
 disp(cmd);
 unix(cmd);
 

@@ -1,10 +1,10 @@
-function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf, image, output_file,type,Type, second_correction)
+function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf, image, output_file,type, Type, second_correction)
 %
 % Function that determines the volume fraction of each pixel crossed by the
 % surface that delineates the different tissues.
 %
-% VP = pvc_compute_volume_fraction( surf_name, surf_path, number_of_surf, 
-% image, output_file, cortical_study, type, Type)
+% VP = pvc_compute_volume_fraction(surf_name,surf_path,number_of_surf, 
+% image,output_file,type,Type,second_correction)
 %
 % Inputs:
 %       surf_name: name of the surface delineating the tissues
@@ -13,7 +13,7 @@ function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf
 %               surface
 %       image: path of the input Volume we want to find the fvolume
 %               fraction
-%       output_name: name of the output file
+%       output_file: name of the output file
 %
 %   (Optionnal)
 %      
@@ -34,7 +34,7 @@ function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf
 % Original author: Camille Van Assel
 
 if nargin < 8 
-    seond_correction = false
+    second_correction = false
 end
 
 %Compute the volume fractions
