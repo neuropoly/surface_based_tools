@@ -53,10 +53,10 @@ for iter=1:size(Resultats,1)
     % The values in the cube must have a minimum number of non-crossed
     % pixel (here the minimun is 3 for each tissue)
     while bool
-        carre = mri(max(1,Resultats(iter,1)-size_c):Resultats(iter,1)+size_c,max(1,Resultats(iter,2)-size_c):Resultats(iter,2)+size_c,...
-            max(1,Resultats(iter,3)-size_c):Resultats(iter,3)+size_c);
-        classe_carre = Volume(max(1,Resultats(iter,1)-size_c):Resultats(iter,1)+size_c,max(1,Resultats(iter,2)-size_c):Resultats(iter,2)+size_c,...
-            max(1,Resultats(iter,3)-size_c):Resultats(iter,3)+size_c);
+        carre = mri(max(1,Resultats(iter,1)-size_c):min(size(mri,1),Resultats(iter,1)+size_c),max(1,Resultats(iter,2)-size_c):min(size(mri,2),Resultats(iter,2)+size_c),...
+            max(1,Resultats(iter,3)-size_c):min(size(mri,3),Resultats(iter,3)+size_c));
+        classe_carre = Volume(max(1,Resultats(iter,1)-size_c):min(size(mri,1),Resultats(iter,1)+size_c),max(1,Resultats(iter,2)-size_c):min(size(mri,2),Resultats(iter,2)+size_c),...
+            max(1,Resultats(iter,3)-size_c):min(size(mri,3),Resultats(iter,3)+size_c));
         [l,c,p] = meshgrid(1:size(carre,1),1:size(carre,2),1:size(carre,3));
         
         A = find(classe_carre == 0);

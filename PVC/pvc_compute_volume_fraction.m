@@ -119,8 +119,6 @@ Fraction = cat(1,Fraction(2:size(Fraction,1),:,:),Fraction(1,:,:));
 Fraction = cat(2,Fraction(:,2:size(Fraction,2),:),Fraction(:,1,:));
 Fraction = cat(3,Fraction(:,:,2:size(Fraction,3)),Fraction(:,:,1));
 
-save_mgh(Fraction,['/Users/cavan/Volume_partiel/Validation/fraction_' type Type '.mgz'],M);
-
 % if cortical_study
 %     %% Extract the label from the aseg file
 %     [data_aseg,~] = load_mgh(aseg);
@@ -142,6 +140,7 @@ save_mgh(Fraction,['/Users/cavan/Volume_partiel/Validation/fraction_' type Type 
 %         Fraction=(data_aseg==41 | data_aseg==42);
 %     end
 % end
+
 
 %% determine the fraction of partial volume
 if second_correction
