@@ -62,14 +62,14 @@ nb_surface = 5;
 %volume fractions 
 fsidr =[fsdir '/surf']; 
 
-% pvc_create_expanded_surfaces('lh.pial', fsdir, 5, voxel);
-% pvc_create_expanded_surfaces('lh.white',fsdir, 5, voxel);
+pvc_create_expanded_surfaces('lh.pial', fsdir, 5, voxel);
+pvc_create_expanded_surfaces('lh.white',fsdir, 5, voxel);
 
 VP_pial = pvc_compute_volume_fraction('lh.pial', fsdir ,nb_surface, Vol,[output_path '/VP_pial_lh'], 'pial','lh', second_correction);
 VP_white = pvc_compute_volume_fraction('lh.white', fsdir ,nb_surface, Vol,[output_path '/VP_white_lh'], 'white','lh', second_correction);
 
-% pvc_create_expanded_surfaces('rh.pial', fsdir, 5, voxel);
-% pvc_create_expanded_surfaces('rh.white',fsdir, 5, voxel);  
+pvc_create_expanded_surfaces('rh.pial', fsdir, 5, voxel);
+pvc_create_expanded_surfaces('rh.white',fsdir, 5, voxel);  
 
 VP_pial = pvc_compute_volume_fraction('rh.pial', fsdir ,nb_surface, Vol,[output_path '/VP_pial_rh'],'pial','rh',second_correction);
 VP_white = pvc_compute_volume_fraction('rh.white', fsdir ,nb_surface, Vol,[output_path '/VP_white_rh'],'white','rh',second_correction);  
