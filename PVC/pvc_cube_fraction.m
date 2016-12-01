@@ -9,23 +9,25 @@ for i=1:number_of_surf
     A = B;
 end
 
-%%
+%% case 1: the surface normal is parallel to one of the cube edge
 alpha= VP;
-alpha(S~=3)=0;
+alpha_lim = floor((2*nb_surface+1)/(3.2*size_pixel));
+alpha(S>alpha_lim)=0;
 alpha= cube_alpha(alpha,size_pixel);
-VP(S==3)=alpha(S==3);
+VP(S<=alpha_lim)=alpha(S<=alpha_lim);
 
-%%
+%% case 2: The surface normal is parallel to the first diagonal
 beta = VP;
-beta(S~=5&S~=4)=0;
+beta_lim = ceil((sqrt(2)*pixel_size*2*nb_surface+1)/(3.2*size_pixel));
+beta(S<=alpha_lim|S>beta_lim)=0;
 beta = cube_beta(beta,size_pixel);
-VP(S==5|S==4)=beta (S==5|S==4);
+VP(S>alpha_lim&S<=beta_lim)=beta (S>alpha_lim&S<=beta_lim);
 
-%%
+%% case 3: The surface normal is parallel to the big diagonal
 gamma = VP;
-gamma(S~=6&S~=7)=0;
+gamma(S<=beta_lim)=0;
 gamma = cube_gamma(gamma,size_pixel);
-VP(S==6|S==7)=gamma(S==6|S==7); 
+VP(S>beta_lim)=gamma(S>beta_lim); 
 end
 
 function h = cube_alpha(h,a)

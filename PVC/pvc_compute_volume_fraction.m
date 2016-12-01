@@ -1,10 +1,10 @@
-function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf, image, output_file,type, Type, second_correction)
+function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf, image, output_file, second_correction)
 %
 % Function that determines the volume fraction of each pixel crossed by the
 % surface that delineates the different tissues.
 %
 % VP = pvc_compute_volume_fraction(surf_name,surf_path,number_of_surf, 
-% image,output_file,type,Type,second_correction)
+% image,output_file,second_correction)
 %
 % Inputs:
 %       surf_name: name of the surface delineating the tissues
@@ -16,15 +16,6 @@ function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf
 %       output_file: name of the output file
 %
 %   (Optionnal)
-%      
-%       cortical_study: If true, compute the partial volume of the cortical
-%       type: In case of cortical study, type of surface('pial' or 'white')
-%       aseg: In case of cortical study, the aseg file needs to be
-%               given in order to fill the GM and WM volume.
-%       reg: In case the aseg file is not the same size/resolution of the
-%               input volume, the reg file needs to be given.
-%       Type: In casse of cortical study, name of the hemisphere ('lh' or
-%               'rh')
 %       Second_correction: Default False
 %
 %  Outputs:
@@ -33,12 +24,22 @@ function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf
 %
 % Original author: Camille Van Assel
 
-if nargin < 8 
-    second_correction = false
+if nargin < 6 
+    second_correction = false;
 end
 
 %Compute the volume fractions
-[mri,M] = load_mgh(image);
+
+[~,~,ext] = fileparts(Vol);
+if strcmp(ext ,'.nii') || strcmp(ext ,'.nii.gz')
+    Mri_nii = load_nii(Vol);
+    mri = Mri_nii.vol;
+elseif strcmp(ext ,'.mgz') || strcmp(ext ,'.mgh')
+    [mri,M] = load_mgh(Vol);
+else
+    error('Wrong input volume type. The volume has to be a .nii or .mgz file...');
+end
+
 size_image = size(mri); 
 
 % Get the name of the expanded surfaces
@@ -119,29 +120,6 @@ Fraction = cat(1,Fraction(2:size(Fraction,1),:,:),Fraction(1,:,:));
 Fraction = cat(2,Fraction(:,2:size(Fraction,2),:),Fraction(:,1,:));
 Fraction = cat(3,Fraction(:,:,2:size(Fraction,3)),Fraction(:,:,1));
 
-% if cortical_study
-%     %% Extract the label from the aseg file
-%     [data_aseg,~] = load_mgh(aseg);
-%     if reg ~= ''
-%         cmd = [launch_bash_profile 'mri_label2vol --seg ' aseg ' --temp ' image ' --reg ' reg ' --o temp_aseg.mgz'];
-%         system(cmd);
-%         aseg = 'temp_aseg.mgz';
-%         [data_aseg,~] = load_mgh(aseg);
-%     end
-% 
-%     if strcmp(type,'white') && strcmp(Type,'lh')
-%         Fraction=(data_aseg==2);
-%     elseif strcmp(type,'white') && strcmp(Type,'rh')
-%        Fraction=(data_aseg==41);
-% 
-%     elseif strcmp(type,'pial') && strcmp(Type,'lh')
-%         Fraction=(data_aseg==3 | data_aseg==2);
-%     elseif strcmp(type,'pial') && strcmp(Type,'rh')
-%         Fraction=(data_aseg==41 | data_aseg==42);
-%     end
-% end
-
-
 %% determine the fraction of partial volume
 if second_correction
     VP = cube_fraction(Volume, pixel, number_of_surf);
@@ -180,7 +158,13 @@ VP = cat(3,VP(:,:,size(VP,3)),VP(:,:,1:size(VP,3)-1));
 
 %% Save the image 
 
-name = [output_file '.mgz'];
-save_mgh(VP, name , M);
+if strcmp(ext ,'.nii') || strcmp(ext ,'.nii.gz')
+     name = [output_file '.nii.gz'];
+     Mri_nii.vol = VP;
+     save_nifti(Mri_nii,name);
+else strcmp(ext ,'.mgz') || strcmp(ext ,'.mgh')
+    name = [output_file '.mgz'];
+    save_mgh(VP, name , M);
+end
 
 end
