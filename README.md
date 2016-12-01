@@ -30,11 +30,12 @@ __METHOD OPTION__:
 ![Outputs](DOC/Screen Shot 2016-11-15 at 3.45.55 PM.png)
                                                                                         
 ## Examples
-If the mri volume is the same resolution than the aseg file:
-_pvc_partial_volume_estimation(‘/sujet_test/mri/T1.mgz’, ‘/sujet_test’, [1 1 1])_;
 
-If the resolution of the mri volume is different from the aseg file:
-_pvc_partial_volume_estimation(‘/sujet_test/mri/T1.mgz’, ‘/sujet_test’, [1 1 1], ‘subject_test/mri/aseg.mgz, ‘subject_test/mri/T1_surfreg.reg’)_;
+Example for an 1mm isotropic image. If the image is not isotropic, put the bigger dimension
+_pvc_partial_volume_estimation(‘/sujet_test/mri/T1.mgz’, ‘/sujet_test’, 1, '/sujet_test/output_dir', true)_;
+
+_ATTENTION_
+You need the writting permission of your subject directory. Be carreful if your subjects are in your Freesurfer file !
 
 # Authors
 - Camille Van-Assel
