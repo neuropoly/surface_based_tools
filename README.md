@@ -1,2 +1,2 @@
-# surface_base_tool
+# surface_based_tools
 Tools related to Freesurfer pipeline
