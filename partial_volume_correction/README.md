@@ -54,6 +54,9 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
+If you use this code, please cite: "Van Assel, C., Mangeat, G., De Leener, D., Stikov, N., Mainero, C., Cohen-Adad, J., (2017). Partial volume effect correction for surface-based cortical mapping. In
+ISMRM. Honolulu, 2017."
+
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
