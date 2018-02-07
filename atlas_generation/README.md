@@ -1,4 +1,4 @@
-# Creation of a custom surface-based atlas
+# Creation of a subject specific atlas
 Procedure to obtain volumetric atlases accurately registered on subjects’ cortical areas and other regions of interest (ROIs). 
 
 
