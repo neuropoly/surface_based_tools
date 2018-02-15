@@ -9,7 +9,7 @@ clear all
 % fsdir: here refers to the actual fsdir/Subject_name
 % the script will assume that the surfaces (lh.white, lh.pial, rh.white and rh.pial)
 % are in fsdir/Subject_name/surf/
-fsdir = '/Users/gabrielmangeat/Documents/Neuropoly/code/surface_based_tools/partial_volume_correction/data_test/ctrl_test';
+fsdir = 'YOUR_PATH/partial_volume_correction/data_test/ctrl_test';
 
 % hemisphere to consider ('lh' or 'rh')
 hemi = 'lh';
@@ -52,8 +52,10 @@ end
 % Run step by step (for the left hemisphere):
 
 % Step 1, expending surfaces
-% create #nb_surface expended surfaces in the positive and degative
+% create #nb_surface expended surfaces in the positive and negative
 % direction, for pial amd white surfaces; so 2* 2* #nb_surface
+% surf created in [fsdir '/surf'], e.g. lh.pial0000, lh.pial0001,
+% lh.pialn0001, etc.
 % Long step, ~55min per surf, so ~20h on a single i7 processor.
 
 compute_expended_surfaces = 0;
