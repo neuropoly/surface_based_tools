@@ -7,8 +7,8 @@ clear all
 %%% set paraneters
 
 % fsdir: here refers to the actual fsdir/Subject_name
-% the script will assume that the surfaces (lh.white, lh.pial, rh.white and rh.pial)
-% are in fsdir/Subject_name/surf/
+% the script will assume that the surfaces (xh.white, xh.pial)
+% are in fsdir/surf/
 fsdir = 'YOUR_PATH/partial_volume_correction/data_test/ctrl_test';
 
 % hemisphere to consider ('lh' or 'rh')
