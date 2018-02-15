@@ -1,4 +1,4 @@
-function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf, image, output_file, second_correction)
+function [VP] = pvc_compute_volume_fraction(Vol, surf_name, surf_path, number_of_surf, image, output_file, second_correction)
 %
 % Function that determines the volume fraction of each pixel crossed by the
 % surface that delineates the different tissues.
@@ -46,7 +46,7 @@ function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 % SOFTWARE.
 
-if nargin < 6 
+if nargin < 7 
     second_correction = false;
 end
 
