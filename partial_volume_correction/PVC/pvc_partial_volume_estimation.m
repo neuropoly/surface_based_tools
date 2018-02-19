@@ -37,11 +37,11 @@ function [ S ] = pvc_partial_volume_estimation(Vol, fsdir, hemi, voxel, output_p
 %                               - the % of R-squared coeeficient up to 0.8    
 %                               - the % of R-squared coefficient up to 0.9
 %                                       
-% Function is written by Camille Van Assel Université polytechnique de
+% Function is written by Camille Van Assel Universitï¿½ polytechnique de
 % Montreal (november 2016) - camille260395@gmail.com - gabriel.mangeat@gmail.com 
 % 
 % The MIT License (MIT)
-% Copyright (c) 2016 Ecole Polytechnique, Université de Montréal
+% Copyright (c) 2016 Ecole Polytechnique, Universitï¿½ de Montrï¿½al
 % 
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal
@@ -82,7 +82,7 @@ end
 %         error('Error. \n Input must be a char (ouput path) or a logical (second correction) , not a %s.',class(output_path));
 %     end
 % end
-% 
+%
 % if nargin == 5
 %     if isa(output_path,'float')
 %         second_correction = nb_surface;
@@ -96,7 +96,7 @@ end
 %         end
 %     else
 %         error('Error. \n Input type is false');
-%     end 
+%     end
 % end
 
 
@@ -129,7 +129,7 @@ WM = pvc_compute_volume_fraction(Vol, [hemi '.white'], fsdir ,nb_surface, Vol,[o
 %%  Second step: computation of the pixel value for each tissue
 
 
-% Classe is a table that contains all the volume fraction 
+% Classe is a table that contains all the volume fraction
 Classe = zeros(size(mri,1),size(mri,2),size(mri,3),3);
 
 Classe(:,:,:,2) = PIAL(:,:,:,1)-WM(:,:,:,1);
@@ -143,14 +143,14 @@ Volume = Classe(:,:,:,2);
 
 % Assign the label 2 to the pixel which are in the white matter but not in
 % the cortex
-Volume(Classe(:,:,:,3)==1)=2;   
+Volume(Classe(:,:,:,3)==1)=2;
 
 
 % We determine which pixels are crossed
 level = [0.01, 0.99];
 nb = imquantize(Volume, level);
 
-% We extract the coordinates of the crossed pixel 
+% We extract the coordinates of the crossed pixel
 [L,C,P] = meshgrid(1:size(Volume,2),1:size(Volume,1),1:size(Volume,3));
 x = find(nb==2);
 Resultats = [C(x), L(x), P(x)];
@@ -184,10 +184,10 @@ if strcmp(ext ,'.nii') || strcmp(ext ,'.nii.gz')
     save_nifti(Mri_nii, [output_path '/vp_CSF_' hemi '.nii.gz']);
     Mri_nii.vol = R_square;
     save_nifti(Mri_nii, [output_path '/vp_r_square_' hemi '.nii.gz']);
-else strcmp(ext,'.mgz') || strcmp(ext ,'.mgh') 
+else strcmp(ext,'.mgz') || strcmp(ext ,'.mgh')
     save_mgh(img_1, [output_path '/vp_CTX_' hemi '.mgz'],N);
     save_mgh(img_2, [output_path '/vp_WM_' hemi '.mgz'],N);
-    save_mgh(img_3, [output_path '/vp_CSF_' hemi '.mgz'],N);  
+    save_mgh(img_3, [output_path '/vp_CSF_' hemi '.mgz'],N);
     save_mgh(R_square, [output_path '/vp_r_square_' hemi '.mgz'],N);
 end
 
