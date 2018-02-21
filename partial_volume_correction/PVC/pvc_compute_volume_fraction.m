@@ -1,4 +1,4 @@
-function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf, image, output_file, second_correction)
+function [VP] = pvc_compute_volume_fraction(Vol, surf_name, surf_path, number_of_surf, image, output_file, second_correction)
 %
 % Function that determines the volume fraction of each pixel crossed by the
 % surface that delineates the different tissues.
@@ -22,11 +22,12 @@ function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf
 %       - VP_out.mgz: Partial volume fraction image, created in the current
 %               directory.
 %
-% Function is written by Camille Van Assel Univertsité polytechnique de
+% Function is written by Camille Van Assel, Ecole Polytechnique, Univertsite de
 % Montreal (november 2016). 
 % 
 % The MIT License (MIT)
-% Copyright (c) 2016 Ecole Polytechnique, Université de Montréal
+% Copyright (c) 2016 Ecole Polytechnique, Univertsite de
+% Montreal
 % 
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +47,7 @@ function [VP] = pvc_compute_volume_fraction(surf_name, surf_path, number_of_surf
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 % SOFTWARE.
 
-if nargin < 6 
+if nargin < 7
     second_correction = false;
 end
 
