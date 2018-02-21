@@ -22,11 +22,12 @@ function [VP] = pvc_compute_volume_fraction(Vol, surf_name, surf_path, number_of
 %       - VP_out.mgz: Partial volume fraction image, created in the current
 %               directory.
 %
-% Function is written by Camille Van Assel Univertsit� polytechnique de
+% Function is written by Camille Van Assel, Ecole Polytechnique, Univertsite de
 % Montreal (november 2016). 
 % 
 % The MIT License (MIT)
-% Copyright (c) 2016 Ecole Polytechnique, Universit� de Montr�al
+% Copyright (c) 2016 Ecole Polytechnique, Univertsite de
+% Montreal
 % 
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal

@@ -37,11 +37,12 @@ function [ S ] = pvc_partial_volume_estimation(Vol, fsdir, hemi, voxel, output_p
 %                               - the % of R-squared coeeficient up to 0.8    
 %                               - the % of R-squared coefficient up to 0.9
 %                                       
-% Function is written by Camille Van Assel Universit� polytechnique de
+% Function is written by Camille Van Assel, Ecole Polytechnique, Univertsite de
 % Montreal (november 2016) - camille260395@gmail.com - gabriel.mangeat@gmail.com 
 % 
 % The MIT License (MIT)
-% Copyright (c) 2016 Ecole Polytechnique, Universit� de Montr�al
+% Copyright (c) 2016 Ecole Polytechnique, Univertsite de
+% Montreal
 % 
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal
